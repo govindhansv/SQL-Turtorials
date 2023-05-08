@@ -1,26 +1,28 @@
-DO $$
-declare
-n numeric;             
-i numeric;            
-flag numeric;        
-begin
-n := 13;                 
-i := 2; 
-flag := 1; 
-  for i in 2..n/2
-    loop
-        if mod(n, i) = 0
-        then
-            flag := 0;
-            exit;
-        end if;
-    end loop;
-    
-    if flag = 1
-    then
-        raise notice 'true';
-    else
-        raise notice 'false';
-    end if;
-end;   
-$$;       
+postgres=# DO $$
+postgres$# declare
+postgres$# n numeric;
+postgres$# i numeric;
+postgres$# flag numeric;
+postgres$# begin
+postgres$# n := 13;
+postgres$# i := 2;
+postgres$# flag := 1;
+postgres$#   for i in 2..n/2
+postgres$#     loop
+postgres$#         if mod(n, i) = 0
+postgres$#         then
+postgres$#             flag := 0;
+postgres$#             exit;
+postgres$#         end if;
+postgres$#     end loop;
+postgres$#
+postgres$#     if flag = 1
+postgres$#     then
+postgres$#         raise notice 'true';
+postgres$#     else
+postgres$#         raise notice 'false';
+postgres$#     end if;
+postgres$# end;
+postgres$# $$;
+NOTICE:  true
+DO

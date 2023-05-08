@@ -1,90 +1,87 @@
-postgres=# CREATE TABLE customer (cust_no varchar(5), cust_name varchar(15), age smallint, phone varchar(10));
+Creating a table customer
+
+postgres=# 
+CREATE TABLE customer(
+cust_no varchar(5),
+cust_name varchar(15),
+age int,
+phone varchar(10)
+);
+
 CREATE TABLE
-postgres=# \d customer
-                      Table "public.customer"
-  Column   |         Type          | Collation | Nullable | Default
------------+-----------------------+-----------+----------+---------
- cust_no   | character varying(5)  |           |          |
- cust_name | character varying(15) |           |          |
- age       | smallint              |           |          |
- phone     | character varying(10) |           |          |
+
+INSERT 5 VALUES
+
+postgres=# INSERT INTO customer VALUES (1,'Govind',19,'7845795455');
+INSERT 0 1
+postgres=# INSERT INTO customer VALUES (2,'ANULAL',19,'7455795455');
+INSERT 0 1
+postgres=# INSERT INTO customer VALUES (3,'SALIH',21,'7455455455');
+INSERT 0 1
+postgres=# INSERT INTO customer VALUES (4,'FENAR',31,'7455457855');
+INSERT 0 1
+postgres=# INSERT INTO customer VALUES (5,'FARJAS',31,'7455454585');
+INSERT 0 1
 
 
-postgres=# SELECT * FROM customer;
- cust_no | cust_name | age | phone
----------+-----------+-----+-------
-(0 rows)
-                           
-postgres=# INSERT INTO customer VALUES (101,'George',30,9347851238),(102,'Shambu',27,6325741985),(103,'David',34,9426874621),(104,'Shibu',25,8432569714),(105,'Lolan',22,7251486327);
-INSERT 0 5
+Displaying
 
-postgres=# SELECT * FROM customer;
+postgres=# select * from customer;
  cust_no | cust_name | age |   phone
 ---------+-----------+-----+------------
- 101     | George    |  30 | 9347851238
- 102     | Shambu    |  27 | 6325741985
- 103     | David     |  34 | 9426874621
- 104     | Shibu     |  25 | 8432569714
- 105     | Lolan     |  22 | 7251486327
+ 1       | Govind    |  19 | 7845795455
+ 2       | ANULAL    |  19 | 7455795455
+ 3       | SALIH     |  21 | 7455455455
+ 4       | FENAR     |  31 | 7455457855
+ 5       | FARJAS    |  31 | 7455454585
 (5 rows)
 
-
-postgres=# ALTER TABLE customer ADD d_birth date;
+postgres=# ALTER TABLE customer ADD COLUMN d_birth date;
 ALTER TABLE
-
-postgres=# SELECT * FROM customer;
+postgres=# select * from customer;
  cust_no | cust_name | age |   phone    | d_birth
 ---------+-----------+-----+------------+---------
- 101     | George    |  30 | 9347851238 |
- 102     | Shambu    |  27 | 6325741985 |
- 103     | David     |  34 | 9426874621 |
- 104     | Shibu     |  25 | 8432569714 |
- 105     | Lolan     |  22 | 7251486327 |
+ 1       | Govind    |  19 | 7845795455 |
+ 2       | ANULAL    |  19 | 7455795455 |
+ 3       | SALIH     |  21 | 7455455455 |
+ 4       | FENAR     |  31 | 7455457855 |
+ 5       | FARJAS    |  31 | 7455454585 |
 (5 rows)
 
 
-postgres=# CREATE TABLE cust_phone AS SELECT cust_name,phone FROM customer;
+postgres=# SELECT cust_name,phone INTO cust_phone
+postgres-# FROM customer;
 SELECT 5
 
-postgres=# SELECT * FROM customer;
- cust_no | cust_name | age |   phone    | d_birth
----------+-----------+-----+------------+---------
- 101     | George    |  30 | 9347851238 |
- 102     | Shambu    |  27 | 6325741985 |
- 103     | David     |  34 | 9426874621 |
- 104     | Shibu     |  25 | 8432569714 |
- 105     | Lolan     |  22 | 7251486327 |
-(5 rows)
 
-
-postgres=# SELECT * FROM cust_phone;
+postgres=# select * from cust_phone;
  cust_name |   phone
 -----------+------------
- George    | 9347851238
- Shambu    | 6325741985
- David     | 9426874621
- Shibu     | 8432569714
- Lolan     | 7251486327
+ Govind    | 7845795455
+ ANULAL    | 7455795455
+ SALIH     | 7455455455
+ FENAR     | 7455457855
+ FARJAS    | 7455454585
 (5 rows)
+
 
 postgres=# ALTER TABLE customer DROP COLUMN age;
 ALTER TABLE
-
-
-postgres=# SELECT * FROM customer;
+postgres=# select * from customer;
  cust_no | cust_name |   phone    | d_birth
 ---------+-----------+------------+---------
- 101     | George    | 9347851238 |
- 102     | Shambu    | 6325741985 |
- 103     | David     | 9426874621 |
- 104     | Shibu     | 8432569714 |
- 105     | Lolan     | 7251486327 |
+ 1       | Govind    | 7845795455 |
+ 2       | ANULAL    | 7455795455 |
+ 3       | SALIH     | 7455455455 |
+ 4       | FENAR     | 7455457855 |
+ 5       | FARJAS    | 7455454585 |
 (5 rows)
 
-
-postgres=# ALTER TABLE customer ALTER COLUMN cust_name TYPE VARCHAR(25);
+                             ^
+postgres=# ALTER TABLE customer ALTER COLUMN cust_name TYPE varchar(25);
 ALTER TABLE
-postgres=# \d customer
+
+postgres=# \d customer;
                       Table "public.customer"
   Column   |         Type          | Collation | Nullable | Default
 -----------+-----------------------+-----------+----------+---------
@@ -93,25 +90,25 @@ postgres=# \d customer
  phone     | character varying(10) |           |          |
  d_birth   | date                  |           |          |
 
-
-postgres=# DELETE FROM customer;
-DELETE 5
-postgres=# SELECT * FROM customer;
+postgres=# TRUNCATE customer;
+TRUNCATE TABLE
+postgres=# select * from customer;
  cust_no | cust_name | phone | d_birth
 ---------+-----------+-------+---------
 (0 rows)
+
 
 
 postgres=# ALTER TABLE customer RENAME TO cust;
 ALTER TABLE
-postgres=# SELECT * FROM cust;
+
+postgres=# select * from customer;
+ERROR:  relation "customer" does not exist
+LINE 1: select * from customer;
+                      ^
+postgres=# select * from cust;
  cust_no | cust_name | phone | d_birth
 ---------+-----------+-------+---------
 (0 rows)
 
-
 postgres=# DROP TABLE cust;
-DROP TABLE
-
-
-

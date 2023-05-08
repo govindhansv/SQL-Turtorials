@@ -1,118 +1,94 @@
-
-postgres=# create table product(prod_code int primary key, prod_name varchar(20), category varchar(20), quantity int, price numeric(10,2));
-CREATE
-
-postgres=# \d product
-                        Table "public.product"
-   Column    |         Type          | Collation | Nullable | Default
--------------+-----------------------+-----------+----------+---------
- productcode | integer               |           | not null |
- productname | character varying(20) |           |          |
- category    | character varying(20) |           |          |
- quantity    | integer               |           |          |
- price       | numeric(10,2)         |           |          |
-Indexes:
-    "product_pkey" PRIMARY KEY, btree (productcode)
-
-postgres=# insert into product values(1,'colgate','paste',10,600),(2,'closeup','paste',9,90),(3,'nirma','bathsoap',10,600),(4,'sunlight','washing powder',10,700),(5,'toy','car',1,200),(6,'toy','bike',3,300),(7,'lux','bathsoap',1,20),(8,'lux','bath liquid',600,2000),(9,'nirma','bath liquid',300,1000);
-INSERT 0 9
-
-postgres=# select * from product;
- productcode | productname |    category    | quantity |  price
--------------+-------------+----------------+----------+---------
-           1 | colgate     | paste          |       10 |  600.00
-           2 | closeup     | paste          |        9 |   90.00
-           3 | nirma       | bathsoap       |       10 |  600.00
-           4 | sunlight    | washing powder |       10 |  700.00
-           5 | toy         | car            |        1 |  200.00
-           6 | toy         | bike           |        3 |  300.00
-           7 | lux         | bathsoap       |        1 |   20.00
-           8 | lux         | bath liquid    |      600 | 2000.00
-           9 | nirma       | bath liquid    |      300 | 1000.00
-(9 rows)
+postgres=# Create table product(Product_code varchar(4) primary key, Product_Name varchar(15),
+postgres(# Category varchar(15), Quantity int, Price numeric(6,2));
+CREATE TABLE
+postgres=# insert into product values('p001','sunlight','washing powder',300,50.75);
+INSERT 0 1
+postgres=# insert into product values('p002','surf excel','washing powder',50,48.50);
+INSERT 0 1
+postgres=# insert into product values('p003','colgate','paste',120,20);
+INSERT 0 1
+postgres=# insert into product values('p004','lux','bath soap',25,50);
+INSERT 0 1
+postgres=# insert into product values('p005','enchanteur','perfume',530,120);
+INSERT 0 1
+postgres=# select * from product
+postgres-# ;
+ product_code | product_name |    category    | quantity | price
+--------------+--------------+----------------+----------+--------
+ p001         | sunlight     | washing powder |      300 |  50.75
+ p002         | surf excel   | washing powder |       50 |  48.50
+ p003         | colgate      | paste          |      120 |  20.00
+ p004         | lux          | bath soap      |       25 |  50.00
+ p005         | enchanteur   | perfume        |      530 | 120.00
+(5 rows)
 
 
-postgres=# select * from product order by productname desc;
- productcode | productname |    category    | quantity |  price
--------------+-------------+----------------+----------+---------
-           5 | toy         | car            |        1 |  200.00
-           6 | toy         | bike           |        3 |  300.00
-           4 | sunlight    | washing powder |       10 |  700.00
-           9 | nirma       | bath liquid    |      300 | 1000.00
-           3 | nirma       | bathsoap       |       10 |  600.00
-           7 | lux         | bathsoap       |        1 |   20.00
-           8 | lux         | bath liquid    |      600 | 2000.00
-           1 | colgate     | paste          |       10 |  600.00
-           2 | closeup     | paste          |        9 |   90.00
-(9 rows)
+postgres=# select * from product order by Product_Name desc
+postgres-# ;
+ product_code | product_name |    category    | quantity | price
+--------------+--------------+----------------+----------+--------
+ p002         | surf excel   | washing powder |       50 |  48.50
+ p001         | sunlight     | washing powder |      300 |  50.75
+ p004         | lux          | bath soap      |       25 |  50.00
+ p005         | enchanteur   | perfume        |      530 | 120.00
+ p003         | colgate      | paste          |      120 |  20.00
+(5 rows)
 
 
-postgres=# select productcode, productname from product where price between 20 and 50;
- productcode | productname
--------------+-------------
-           7 | lux
-(1 row)
+postgres=# select Product_Code, Product_Name from product where price between 20 and 50
+postgres-# ;
+ product_code | product_name
+--------------+--------------
+ p002         | surf excel
+ p003         | colgate
+ p004         | lux
+(3 rows)
 
 
-postgres=# select productname, price from product where category in('bathsoap','paste','washingpowder');
- productname | price
--------------+--------
- colgate     | 600.00
- closeup     |  90.00
- nirma       | 600.00
- lux         |  20.00
+postgres=# select * from product where category in('bath soap','paste','washing powder');
+ product_code | product_name |    category    | quantity | price
+--------------+--------------+----------------+----------+-------
+ p001         | sunlight     | washing powder |      300 | 50.75
+ p002         | surf excel   | washing powder |       50 | 48.50
+ p003         | colgate      | paste          |      120 | 20.00
+ p004         | lux          | bath soap      |       25 | 50.00
 (4 rows)
 
 
-postgres=# select * from product where quantity<100 or quantity>500;
- productcode | productname |    category    | quantity |  price
--------------+-------------+----------------+----------+---------
-           1 | colgate     | paste          |       10 |  600.00
-           2 | closeup     | paste          |        9 |   90.00
-           3 | nirma       | bathsoap       |       10 |  600.00
-           4 | sunlight    | washing powder |       10 |  700.00
-           5 | toy         | car            |        1 |  200.00
-           6 | toy         | bike           |        3 |  300.00
-           7 | lux         | bathsoap       |        1 |   20.00
-           8 | lux         | bath liquid    |      600 | 2000.00
-(8 rows)
+postgres=# select * from product where quantity<100 or quantity >500;
+ product_code | product_name |    category    | quantity | price
+--------------+--------------+----------------+----------+--------
+ p002         | surf excel   | washing powder |       50 |  48.50
+ p004         | lux          | bath soap      |       25 |  50.00
+ p005         | enchanteur   | perfume        |      530 | 120.00
+(3 rows)
 
 
-postgres=# select * from product where quantity < 100 or quantity > 500;
- productcode | productname |    category    | quantity |  price
--------------+-------------+----------------+----------+---------
-           1 | colgate     | paste          |       10 |  600.00
-           2 | closeup     | paste          |        9 |   90.00
-           3 | nirma       | bathsoap       |       10 |  600.00
-           4 | sunlight    | washing powder |       10 |  700.00
-           5 | toy         | car            |        1 |  200.00
-           6 | toy         | bike           |        3 |  300.00
-           7 | lux         | bathsoap       |        1 |   20.00
-           8 | lux         | bath liquid    |      600 | 2000.00
-(8 rows)
+postgres=# select * from product where Product_Name like 's%';
+ product_code | product_name |    category    | quantity | price
+--------------+--------------+----------------+----------+-------
+ p001         | sunlight     | washing powder |      300 | 50.75
+ p002         | surf excel   | washing powder |       50 | 48.50
+(2 rows)
 
 
-postgres=# select productname from product where productname like 's%d';
- productname
--------------
-(0 rows)
+postgres=# select * from product where category!='paste'
+postgres-# ;
+ product_code | product_name |    category    | quantity | price
+--------------+--------------+----------------+----------+--------
+ p001         | sunlight     | washing powder |      300 |  50.75
+ p002         | surf excel   | washing powder |       50 |  48.50
+ p004         | lux          | bath soap      |       25 |  50.00
+ p005         | enchanteur   | perfume        |      530 | 120.00
+(4 rows)
 
 
-postgres=# select productname from product where category != 'paste';
- productname
--------------
- nirma
- sunlight
- toy
- toy
- lux
- lux
- nirma
-(7 rows)
+postgres=# select * from product where Product_Name like '_u%' and category='washing powder';
+ product_code | product_name |    category    | quantity | price
+--------------+--------------+----------------+----------+-------
+ p001         | sunlight     | washing powder |      300 | 50.75
+ p002         | surf excel   | washing powder |       50 | 48.50
+(2 rows)
 
 
-postgres=# select productname from product where productname like '_u%' and category='washing product';
- productname
--------------
-(0 rows)
-
+postgres=#

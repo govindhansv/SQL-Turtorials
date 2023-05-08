@@ -1,32 +1,147 @@
-
-
-postgres=# CREATE TABLE employee (emp_name varchar(50) NOT NULL, city varchar(50));
+postgres=# create table employ(ename varchar(20) primary key,city varchar(20));
 CREATE TABLE
+postgres=# insert into employ values('anu','calicut');
+INSERT 0 1
+postgres=# insert into employ values('anup','calicut');
+INSERT 0 1
+postgres=# insert into employ values('anusree','tvm');
+INSERT 0 1
+postgres=# insert into employ values('anupriya','kochi');
+INSERT 0 1
+postgres=# insert into employ values('anoop','trissur');
+INSERT 0 1
+postgres=# insert into employ values('anuvinda','kochi');
+INSERT 0 1
+postgres=# insert into employ values('appu','kochi');
+INSERT 0 1
+postgres=# select * from employ;
+  ename   |  city
+----------+---------
+ anu      | calicut
+ anup     | calicut
+ anusree  | tvm
+ anupriya | kochi
+ anoop    | trissur
+ anuvinda | kochi
+ appu     | kochi
+(7 rows)
 
 
-postgres=# CREATE TABLE works (emp_name varchar(50) REFERENCES employee(emp_name),company_name varchar(50) REFERENCES company(company_name),salary numeric(10,2));
+postgres=# create table cmpny(cname varchar(20) primary key,city varchar(20));
 CREATE TABLE
+postgres=# insert into cmpny values('infosis','calicut');
+INSERT 0 1
+postgres=# insert into cmpny values('IBM','kochi');
+INSERT 0 1
+postgres=# insert into cmpny values('wipro','tvm');
+INSERT 0 1
+postgres=# select * from cmpny;
+  cname  |  city
+---------+---------
+ infosis | calicut
+ IBM     | kochi
+ wipro   | tvm
+(3 rows)
 
 
-postgres=# CREATE TABLE company (company_name varchar(50) NOT NULL, city varchar(50));
+postgres=# create table manages(ename varchar(20) references employ(ename),mname varchar(20));
 CREATE TABLE
-
-
-postgres=# CREATE TABLE managers (emp_name varchar(50) REFERENCES employee(emp_name),manager_name varchar(50);
+postgres=# insert into manages values('anu','anu');
+INSERT 0 1
+postgres=# insert into manages values('anup','anu');
+INSERT 0 1
+postgres=# insert into manages values('anusree','anoop');
+INSERT 0 1
+postgres=# insert into manages values('anupriya','anoop');
+INSERT 0 1
+postgres=# insert into manages values('anoop','anoop');
+INSERT 0 1
+postgres=# insert into manages values('anuvinda','anoop');
+INSERT 0 1
+postgres=# create table works(ename varchar(20) references employ(ename),cname varchar(20) references
+postgres(# cmpny(cname),salary int);
 CREATE TABLE
+postgres=# insert into works values('anu','infosis',25000);
+INSERT 0 1
+postgres=# insert into works values('anup','infosis',9000);
+INSERT 0 1
+postgres=# insert into works values('anusree','wipro',30000);
+INSERT 0 1
+postgres=# insert into works values('anupriya','wipro',10000);
+INSERT 0 1
+postgres=# insert into works values('anoop','wipro',22000);
+INSERT 0 1
+postgres=# insert into works values('anuvinda','wipro',25000);
+INSERT 0 1
+postgres=# insert into works values('appu','IBM',25000);
+INSERT 0 1
+postgres=# select * from works;
+  ename   |  cname  | salary
+----------+---------+--------
+ anu      | infosis |  25000
+ anup     | infosis |   9000
+ anusree  | wipro   |  30000
+ anupriya | wipro   |  10000
+ anoop    | wipro   |  22000
+ anuvinda | wipro   |  25000
+ appu     | IBM     |  25000
+(7 rows)
 
 
-postgres=# INSERT INTO employee VALUES ('Farjaz', 'New York'),('Govind', 'San Francisco'),('Fazal', 'Los Angeles'),('Farzana', 'Chicago'),('Salih', 'Boston');
-INSERT 0 5
+postgres=# select ename from works where cname='infosis';
+ ename
+-------
+ anu
+ anup
+(2 rows)
 
 
-postgres=# INSERT INTO company VALUES ('Infosys', 'New York'),('Wipro', 'San Francisco'),('Google', 'Mountain View'),('Microsoft', 'Seattle'),('Amazon', 'Seattle');
-INSERT 0 5
+postgres=# select employ.ename,employ.city from employ,works where employ.ename=works.ename and
+postgres-# works.cname='wipro';
+  ename   |  city
+----------+---------
+ anusree  | tvm
+ anupriya | kochi
+ anoop    | trissur
+ anuvinda | kochi
+(4 rows)
 
 
-postgres=# INSERT INTO works VALUES ('Farjaz','Infosys', 12000.00),('Govind', 'Wipro', 13000.00),('Fazal', 'Google', 15000.00),('Farzana', 'Microsoft', 11000.00),('Salih', 'Amazon', 14000.00);
-INSERT 0 5
+postgres=# select employ.ename,employ.city from employ,works where employ.ename=works.ename and
+postgres-# works.cname='infosis' and works.salary>10000;
+ ename |  city
+-------+---------
+ anu   | calicut
+(1 row)
 
 
-postgres=# INSERT INTO managers VALUES ('Farjaz', 'Salil Parekh'),('Govind', 'Thierry Delaporte'),('Fazal', 'Sundar Pichai'),('Farzana', 'Satya Nadella'),('Salih', 'Andy Jassy');
-INSERT 0 4
+postgres=# select employ.ename from employ,cmpny,works where employ.city=cmpny.city and
+postgres-# employ.ename=works.ename and works.cname=cmpny.cname;
+  ename
+---------
+ anu
+ anup
+ anusree
+ appu
+(4 rows)
+
+
+postgres=# select ename from employ where ename not in( select ename from works where cname='wipro');
+ ename
+-------
+ anu
+ anup
+ appu
+(3 rows)
+
+
+postgres=# create view emplcount as select cname,count(cname)as count from works group by cname;
+CREATE VIEW
+postgres=#  select cname from emplcount where count in(select max(count) from emplcount);
+ cname
+-------
+ wipro
+(1 row)
+
+
+postgres=#

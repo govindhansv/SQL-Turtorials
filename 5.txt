@@ -37,7 +37,7 @@ college=# SELECT * FROM employee;
    103 | Shibu    |  45000 | Maths      |  40
    104 | Greeshma |  35000 | Maths      |  27
    105 | Akshara  |  35000 | Sales      |  30
-   106 | Sujith   |  30000 | Sales      |  35
+   106 | Sujith   |  40000 | Sales      |  35
 (7 rows)
 
 
@@ -75,11 +75,5 @@ college=# SELECT MIN(salary) FROM employee;
 college=# SELECT MAX(Salary) FROM employee WHERE department='Sales';
   max
 -------
- 30000
-(1 row)
-
-college=# SELECT MAX(Salary) - MIN(Salary) as salary_range FROM employee;
- salary_range
---------------
-  40000
+ 40000
 (1 row)

@@ -1,51 +1,74 @@
-postgres=# CREATE TABLE Hospital (doctorid varchar(5), doctorname varchar(15), department varchar(15), qualification varchar(10), experience integer);
+Create a field hospital with the field
+
+postgres=# CREATE TABLE hospital (doctorid varchar(10), doctorname varchar(20),department varchar(20),qualification varchar(20),experience int));
 CREATE TABLE
 
-postgres=# INSERT INTO Hospital VALUES 
-('D001', 'John Doe', 'Skin', 'MD', 7),    
-('D002', 'Jane Smith', 'ENT', 'MBBS', 3),    
-('D003', 'Bob Johnson', 'Cardiology', 'MD', 12),    
-('D004', 'Sally Brown', 'Orthopaedics', 'MS', 8),    
-('D005', 'Tom Jones', 'Skin', 'MBBS', 4);
-INSERT 0 5
 
-
-postgres=# SELECT * FROM Hospital;
- doctorid | doctorname  |  department  | qualification | experience
-----------+-------------+--------------+---------------+------------
- D001     | John Doe    | Skin         | MD            |          7
- D002     | Jane Smith  | ENT          | MBBS          |          3
- D003     | Bob Johnson | Cardiology   | MD            |         12
- D004     | Sally Brown | Orthopaedics | MS            |          8
- D005     | Tom Jones   | Skin         | MBBS          |          4
+postgres=# INSERT INTO hospital VALUES (1,'Vinod','Neurology','MD',3);
+INSERT 0 1
+postgres=# INSERT INTO hospital VALUES ('D003','Vinod','Skin','MD',7);
+INSERT 0 1
+postgres=# INSERT INTO hospital VALUES ('D006','Anoop','Skin','MBBS',7);
+INSERT 0 1
+postgres=# INSERT INTO hospital VALUES ('D005','Anu','General','MBBS',4);
+INSERT 0 1
+postgres=# INSERT INTO hospital VALUES ('D008','Manohar','General','MBBS',3);
+INSERT 0 1
+postgres=# select * from hospital;
+ doctorid | doctorname | department | qualification | experience
+----------+------------+------------+---------------+------------
+ 1        | Vinod      | Neurology  | MD            |          3
+ D003     | Vinod      | Skin       | MD            |          7
+ D006     | Anoop      | Skin       | MBBS          |          7
+ D005     | Anu        | General    | MBBS          |          4
+ D008     | Manohar    | General    | MBBS          |          3
 (5 rows)
 
 
-postgres=# SELECT * FROM Hospital WHERE qualification = 'MD';
- doctorid | doctorname  | department | qualification | experience
-----------+-------------+------------+---------------+------------
- D001     | John Doe    | Skin       | MD            |          7
- D003     | Bob Johnson | Cardiology | MD            |         12
+
+postgres=# SELECT * from hospital where qualification='MD';
+ doctorid | doctorname | department | qualification | experience
+----------+------------+------------+---------------+------------
+ 1        | Vinod      | Neurology  | MD            |          3
+ D003     | Vinod      | Skin       | MD            |          7
 (2 rows)
 
-
-postgres=# SELECT * FROM Hospital WHERE experience > 5 AND qualification <> 'MD';
- doctorid | doctorname  |  department  | qualification | experience
-----------+-------------+--------------+---------------+------------
- D004     | Sally Brown | Orthopaedics | MS            |          8
+postgres=# SELECT * from hospital where qualification!='MD' AND experience>5;
+ doctorid | doctorname | department | qualification | experience
+----------+------------+------------+---------------+------------
+ D006     | Anoop      | Skin       | MBBS          |          7
 (1 row)
 
 
-postgres=# SELECT * FROM Hospital WHERE department = 'Skin';
+postgres=# SELECT * from hospital where department='Skin';
  doctorid | doctorname | department | qualification | experience
 ----------+------------+------------+---------------+------------
- D001     | John Doe   | Skin       | MD            |          7
- D005     | Tom Jones  | Skin       | MBBS          |          4
+ D003     | Vinod      | Skin       | MD            |          7
+ D006     | Anoop      | Skin       | MBBS          |          7
 (2 rows)
 
 
-postgres=# UPDATE Hospital SET experience = 5 WHERE doctorid = 'D003';
+postgres=# UPDATE hospital SET experience=5 where doctorid='D003';
 UPDATE 1
 
-postgres=# DELETE FROM Hospital WHERE doctorid = 'D005';
+
+postgres=# SELECT * from hospital;
+ doctorid | doctorname | department | qualification | experience
+----------+------------+------------+---------------+------------
+ 1        | Vinod      | Neurology  | MD            |          3
+ D006     | Anoop      | Skin       | MBBS          |          7
+ D005     | Anu        | General    | MBBS          |          4
+ D008     | Manohar    | General    | MBBS          |          3
+ D003     | Vinod      | Skin       | MD            |          5
+(5 rows)
+
+postgres=# DELETE FROM hospital where doctorid='D003';
 DELETE 1
+postgres=# SELECT * from hospital;
+ doctorid | doctorname | department | qualification | experience
+----------+------------+------------+---------------+------------
+ 1        | Vinod      | Neurology  | MD            |          3
+ D006     | Anoop      | Skin       | MBBS          |          7
+ D005     | Anu        | General    | MBBS          |          4
+ D008     | Manohar    | General    | MBBS          |          3
+(4 rows)
