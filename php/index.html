@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <title>Bio Data Form</title>
+</head>
+<body class="bg-gray-200">
+    <div class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold mb-4">Enter Personal Details:</h1>
+        <form action="display.php" method="POST" class="bg-white p-4 shadow-lg rounded-lg">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Name:</label>
+                <input type="text" id="name" name="name" class="w-full border-gray-300 rounded-md ring focus:ring-indigo-200 focus:outline-none" required>
+            </div>
+            <div class="mb-4">
+                <label for="age" class="block text-gray-700 font-bold mb-2">Age:</label>
+                <input type="number" id="age" name="age" class="w-full border-gray-300 rounded-md ring focus:ring-indigo-200 focus:outline-none" required>
+            </div>
+            <div class="mb-4">
+                <label for="bio" class="block text-gray-700 font-bold mb-2">Bio:</label>
+                <textarea id="bio" name="bio" class="w-full border-gray-300 rounded-md ring focus:ring-indigo-200 focus:outline-none" required></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-200">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
